@@ -1,5 +1,6 @@
 {
   "name": "aggregation",
+  "type": "module",
   "version": "1.0.0",
   "description": "aggregation microservice",
   "main": "server.js",

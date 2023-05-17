@@ -1,5 +1,6 @@
 {
   "name": "votes",
+  "type": "module",
   "version": "1.0.0",
   "description": "votes microservice",
   "main": "server.js",

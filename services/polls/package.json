@@ -1,5 +1,6 @@
 {
   "name": "polls",
+  "type": "module",
   "version": "1.0.0",
   "description": "polls microservice",
   "main": "server.js",
