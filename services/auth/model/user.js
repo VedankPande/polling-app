@@ -19,7 +19,6 @@ userSchema.pre('save', async function(next){
                 console.log("error while hashing password")
                 reject(err)
             }
-            console.log("hashed password successfully")
             resolve(hash)
         })
     })
@@ -28,15 +27,17 @@ userSchema.pre('save', async function(next){
     next()
 })
 
-userSchema.methods.validatePassword = function(enteredPassword){
-    const passwordMatch = bcrypt.compare(enteredPassword, this.password, function(err,match){
-        if (err){
-            return err
-        }
-        return match
-    })
+userSchema.methods.validatePassword = async function(enteredPassword){
+    
+    try{
+        const passwordMatch = await bcrypt.compare(enteredPassword,this.password)
+        return passwordMatch
+    }
+    catch(err){
+        console.log(err)
+        return false
+    }
 
-    return passwordMatch
 }
 
 export default userSchema
