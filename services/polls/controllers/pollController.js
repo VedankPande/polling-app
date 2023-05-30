@@ -23,9 +23,9 @@ const getPoll = (req,res)=>{
 const createPoll = async (req,res)=>{
     const Polls = mongoose.model('polls',pollSchema)
 
+    console.log(req.body)
     const {uuid,pollName,options,expire} = req.body 
 
-    // console.log(new Date(expire))
     try{
         await new Polls({name:pollName,owner:uuid,options:options,expire:expire}).save()
 
@@ -36,7 +36,7 @@ const createPoll = async (req,res)=>{
         console.log(err)
     }
     
-    res.json({})
+    res.json({"status":200,"message":req.body})
 }
 
 const deletePoll = (req,res)=>{
