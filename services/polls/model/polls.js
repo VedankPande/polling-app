@@ -20,7 +20,8 @@ const pollSchema = mongoose.Schema({
 // mongoose hook
 pollSchema.post("save", function (doc) {
   console.log("Saved polls document")
-  const message = { action: "save", ...doc };
+  const message = { action: "save", ...doc._doc };
+  console.log("message with action",message)
   try {
     channel.sendToQueue(
       process.env.RABBIT_QUEUE,
@@ -35,7 +36,7 @@ pollSchema.post("save", function (doc) {
 pollSchema.post("remove", (doc) => {
 
   console.log("Deleted polls document");
-  const message = { action: "remove", ...doc };
+  const message = { action: "remove", ...doc._doc };
   
   try {
     channel.sendToQueue(
