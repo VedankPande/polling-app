@@ -1,12 +1,9 @@
 import express from "express"
 import dotenv from "dotenv"
 import bodyParser from "body-parser"
-import mongoose from "mongoose"
 
 //local imports
-
 import connect from "../polls/config/database.js"
-import pollSchema from "./model/polls.js"
 import pollsRouter from "./routes/pollRouter.js"
 
 dotenv.config()
