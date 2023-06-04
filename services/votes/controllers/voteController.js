@@ -31,7 +31,7 @@ const updateVotes = async (req,res)=>{
     
     const {poll,vote} = req.body
 
-    if (!poll || !vote){
+    if (!(poll && vote)){
         res.json({status:400,message:"Patch requires both id and vote"})
     }
     try{
