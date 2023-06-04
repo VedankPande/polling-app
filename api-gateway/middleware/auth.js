@@ -29,11 +29,11 @@ export default async function auth(req,res,next){
 
             // Token has expired
             console.error('Token expired:', err.message);
-            res.json({"status":400,"message": err.message})
+            res.json({"status":401,"message": err.message})
           } else if (err instanceof jwt.JsonWebTokenError) {
             // Other verification errors
             console.error('Token verification failed:', err.message);
-            res.json({"status":400,"message":err.message})
+            res.json({"status":401,"message":err.message})
           } else {
             // Other unexpected errors
             console.error('Error:', err.message);
