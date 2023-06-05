@@ -1,8 +1,11 @@
 import amqp from "amqplib/callback_api.js";
 import mongoose from "mongoose";
-import votesSchema from "../model/votes.js";
 
-//TODO: Setup consumer for votes-poll queue here, with ack, maybe create a class?
+import votesSchema from "../model/votes.js";
+import { handleSave,handleDelete } from "../util/messageConsumerUtil.js";
+
+//TODO: Make action handling modular, create a class for the consumer
+// instead of one function
 
 const connectRabbitConsumer = (url, queue) => {
 
@@ -28,29 +31,21 @@ const connectRabbitConsumer = (url, queue) => {
             
             // deal with actions requested by messages
             switch(messageJSON.action){
+
               //if a poll was created
               case "save":{
-                
-                var votes = []
-                
-                //create a hashmap with votes and counts
-                for (const option of messageJSON.options){
-                  votes.push({option,count:0})
-                }
-                
-                //save votes document
-                Votes({poll:messageJSON._id,votes}).save()
-                break;
-              }
-              // if a poll was removed (Delete req)
-              case "remove":{
 
-                Votes.deleteOne({poll:messageJSON._id}).then(()=>{
-                  console.log("poll removed from polls")
-                })
-                
+                handleSave(messageJSON,Votes)
                 break;
               }
+
+              // if a poll was removed (Delete req)
+              case "delete":{
+
+                handleDelete(messageJSON,Votes)
+                break;
+              }
+
               default:{
                 console.log("Error in action of polls")
                 break;
