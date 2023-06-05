@@ -33,10 +33,9 @@ pollSchema.post("save", function (doc) {
   }
 });
 
-pollSchema.post("remove", (doc) => {
+pollSchema.post("deleteOne", function(doc){
 
-  console.log("Deleted polls document");
-  const message = { action: "remove", ...doc._doc };
+  const message = { action: "delete", id: this.options.id };
   
   try {
     channel.sendToQueue(
