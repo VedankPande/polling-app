@@ -13,7 +13,11 @@ const votesSchema = mongoose.Schema({
 
 
 votesSchema.post("save",(doc)=>{
-    console.log("saved votes document",doc)
+    console.log(doc)
+})
+
+votesSchema.post("deleteOne",function(doc){
+    console.log(doc)
 })
 
 
