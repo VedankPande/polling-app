@@ -8,7 +8,7 @@ pollsRouter.get('/',getPolls)
 pollsRouter.get('/:id',getPoll)
 pollsRouter.post('/',createPoll)
 pollsRouter.patch('/:id',updatePoll)
-pollsRouter.delete('/:id',deletePoll)
+pollsRouter.delete('/',deletePoll)
 
 // export
 export default pollsRouter
