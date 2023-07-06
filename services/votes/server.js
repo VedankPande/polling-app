@@ -4,14 +4,14 @@ import dotenv from "dotenv"
 
 //Local imports
 import votesRouter from "./routes/votesRouter.js"
-import connectRabbitConsumer from "./config/messaging.js"
+import connectRabbitConsumer from "./messaging/rabbitConsumer.js"
 import connect from "./config/database.js"
 
 
 //Setup and config
 dotenv.config()
 connect()
-connectRabbitConsumer(process.env.RABBIT_URL,process.env.RABBIT_QUEUE)
+connectRabbitConsumer(process.env.RABBIT_URL,process.env.RABBIT_POLLS_QUEUE)
 
 const app = express()
 
