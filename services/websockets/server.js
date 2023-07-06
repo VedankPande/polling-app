@@ -5,8 +5,13 @@ import http from "http";
 import { Server } from "socket.io";
 
 import wsRouter from "./routes/wsRoute.js";
-import { SocketAddress } from "net";
+import connectRabbitConsumer from "./messaging/rabbitConsumer.js";
+
+//setup env variables
 dotenv.config();
+
+//initilaize RabbitMQ
+connectRabbitConsumer(process.env.RABBIT_URL,process.env.RABBIT_VOTES_QUEUE)
 
 //setup websocket server
 const app = express();
@@ -30,6 +35,7 @@ const options = ["a", "b", "c", "d","e","f"];
 io.on("connection", (socket) => {
   console.log("A user connected to ws server");
 
+  // simulate votes
   // setInterval(function(){
   //   socket.emit("vote", {
   //     option: options[Math.floor(Math.random() * options.length)],
