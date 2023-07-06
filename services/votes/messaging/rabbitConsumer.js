@@ -2,61 +2,54 @@ import amqp from "amqplib/callback_api.js";
 import mongoose from "mongoose";
 
 import votesSchema from "../model/votes.js";
+import connectRabbitMQ from "./myRabbitMQ.js";
 import { handleSave,handleDelete } from "../util/messageConsumerUtil.js";
 
 //TODO: Make action handling modular, create a class for the consumer
 // instead of one function
 
-const connectRabbitConsumer = (url, queue) => {
 
-    const Votes = mongoose.model("votes",votesSchema)
-
-    amqp.connect(url, (error, connection) => {
-        if (error) {
-          //TODO: Retry connection here
-          return
-        }
-        connection.createChannel((channelError,channel)=>{
-          if (channelError){
-              return;
-          }
+const connectRabbitConsumer  = async (url, queue) =>{
   
-          channel.assertQueue(queue,{
-              durable:false
-          })
-  
-          channel.consume(queue, (message)=>{
+  //Votes model mongo
+  const Votes = mongoose.model("votes",votesSchema)
 
-            const messageJSON = JSON.parse(message.content)
-            console.log(`received message: ${JSON.stringify(messageJSON)}`)
-            
-            // deal with actions requested by messages
-            switch(messageJSON.action){
+  //get MQ channel
+  const channel = await connectRabbitMQ(
+    url,
+    queue
+  );
 
-              //if a poll was created
-              case "save":{
+  channel.consume(queue, (message)=>{
 
-                handleSave(messageJSON,Votes)
-                break;
-              }
+    const messageJSON = JSON.parse(message.content)
+    console.log(`received message: ${JSON.stringify(messageJSON)}`)
+    
+    // deal with actions requested by messages
+    switch(messageJSON.action){
 
-              // if a poll was removed (Delete req)
-              case "delete":{
+      //if a poll was created
+      case "save":{
 
-                handleDelete(messageJSON,Votes)
-                break;
-              }
+        handleSave(messageJSON,Votes)
+        break;
+      }
 
-              default:{
-                console.log("Error in action of polls")
-                break;
-              }
-            }
-          },{noAck:true})
-  
-          console.log(`RabbitMQ Consumer listening for messages on ${queue}`)
-        })
-      });
-};
+      // if a poll was removed (Delete req)
+      case "delete":{
+
+        handleDelete(messageJSON,Votes)
+        break;
+      }
+
+      default:{
+        console.log("Error in action of polls")
+        break;
+      }
+    }
+  },{noAck:true})
+
+  console.log(`RabbitMQ Consumer listening for messages on ${queue}`)
+}
 
 export default connectRabbitConsumer;
