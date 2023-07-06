@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
-import connectRabbitMQ from "../config/messaging.js";
+import {connectRabbitMQ,sendRabbitMessage} from "../config/messaging.js";
 
 dotenv.config();
 
@@ -19,33 +19,18 @@ const pollSchema = mongoose.Schema({
 
 // mongoose hook
 pollSchema.post("save", function (doc) {
-  console.log("Saved polls document")
+
   const message = { action: "save", ...doc._doc };
-  console.log("message with action",message)
-  try {
-    channel.sendToQueue(
-      process.env.RABBIT_QUEUE,
-      Buffer.from(JSON.stringify(message))
-    );
-    console.log(" [RabbitMQ] Sent %s", doc);
-  } catch (error) {
-    console.log(" [RabbitMQ]", error);
-  }
+  //send message to queue
+  sendRabbitMessage(channel,process.env.RABBIT_QUEUE,message)
 });
 
 pollSchema.post("deleteOne", function(doc){
 
   const message = { action: "delete", id: this.options.id };
-  
-  try {
-    channel.sendToQueue(
-      process.env.RABBIT_QUEUE,
-      Buffer.from(JSON.stringify(message))
-    );
-    console.log(" [RabbitMQ] Sent %s", doc);
-  } catch (error) {
-    console.log(" [RabbitMQ]", error);
-  }
+  //send message to queue
+  sendRabbitMessage(channel,process.env.RABBIT_QUEUE,message)
+
 
 });
 
