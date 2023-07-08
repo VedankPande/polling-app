@@ -18,13 +18,18 @@ const votesSchema = mongoose.Schema({
 //TODO: NOT DRY - maybe create function to switch between hooks?
 votesSchema.post("save",(doc)=>{
 
-    sendRabbitMessage(channel,process.env.RABBIT_WEBSOCKET_QUEUE,{message:"saved vote"})
+    //sendRabbitMessage(channel,process.env.RABBIT_WEBSOCKET_QUEUE,{message:"saved vote"})
     console.log(doc)
 })
 
+votesSchema.post("updateOne",function(){
+
+    sendRabbitMessage(channel,process.env.RABBIT_WEBSOCKET_QUEUE,{poll: this.getQuery().poll})
+    console.log("someone voted!")
+})
 votesSchema.post("deleteOne",function(doc){
 
-    sendRabbitMessage(channel,process.env.RABBIT_WEBSOCKET_QUEUE,{message:"saved vote"})
+    //sendRabbitMessage(channel,process.env.RABBIT_WEBSOCKET_QUEUE,{message:"saved vote"})
     console.log(doc)
 })
 
