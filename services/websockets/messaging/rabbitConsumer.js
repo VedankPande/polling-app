@@ -1,7 +1,7 @@
 import amqp from "amqplib"
 import connectRabbitMQ from "./myRabbitMQ.js";
 
-const connectRabbitConsumer  = async (url, queue) =>{
+const connectWebsocketRabbitConsumer  = async (websocketIO,url, queue) =>{
   
     //get MQ channel
     const channel = await connectRabbitMQ(
@@ -12,6 +12,7 @@ const connectRabbitConsumer  = async (url, queue) =>{
     channel.consume(queue, (message)=>{
   
       const messageJSON = JSON.parse(message.content)
+      websocketIO.to(messageJSON.poll).emit("update","someone voted!")
       console.log(`received message: ${JSON.stringify(messageJSON)}`)
       
     },{noAck:true})
@@ -20,4 +21,4 @@ const connectRabbitConsumer  = async (url, queue) =>{
   }
 
 
-export default connectRabbitConsumer
+export default connectWebsocketRabbitConsumer
