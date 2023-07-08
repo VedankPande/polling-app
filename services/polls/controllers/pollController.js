@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import pollSchema from "../model/polls.js";
 
 const getPolls = async (req,res)=>{
-    const {uuid} = req.body
+    const uuid = req.query.user
     const Polls = mongoose.model('polls',pollSchema)
 
     //validate request body
@@ -67,7 +67,7 @@ const deletePoll = (req,res)=>{
 
     //setup model
     const Polls = mongoose.model('polls',pollSchema) 
-    const {poll} = req.body
+    const poll = req.params.id
 
     //validate req body
     if (!poll){
@@ -84,6 +84,9 @@ const deletePoll = (req,res)=>{
 }
 
 const updatePoll = (req,res)=>{
+
+    const poll = req.params.poll
+    const {updates} = req.body
     console.log("update Poll request called")
     res.json({})
 }
