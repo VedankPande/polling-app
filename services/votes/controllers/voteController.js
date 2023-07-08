@@ -4,7 +4,7 @@ import votesSchema from "../model/votes.js";
 //TODO: Complete controllers
 const getVotes = async (req,res)=>{
 
-    const {poll} = req.body
+    const poll = req.query.poll
     try{
         const Votes = mongoose.model('votes',votesSchema)
 
@@ -28,8 +28,9 @@ const getVotes = async (req,res)=>{
 }
 
 const updateVotes = async (req,res)=>{
-    
-    const {poll,vote} = req.body
+
+    const poll = req.params.poll
+    const {vote} = req.body
 
     if (!(poll && vote)){
         res.json({status:400,message:"Patch requires both id and vote"})
