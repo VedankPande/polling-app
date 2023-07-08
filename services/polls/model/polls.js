@@ -27,7 +27,7 @@ pollSchema.post("save", function (doc) {
 
 pollSchema.post("deleteOne", function(doc){
 
-  const message = { action: "delete", id: this.options.id };
+  const message = { action: "delete", id: this.getQuery()._id.toString() };
   //send message to queue
   sendRabbitMessage(channel,process.env.RABBIT_QUEUE,message)
 

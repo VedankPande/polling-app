@@ -74,8 +74,8 @@ const deletePoll = (req,res)=>{
         res.json({status:400,message:"Poll id is required"})
     }
 
-    //Delete poll - passing poll id in options so that the post delete middleware can access it
-    Polls.deleteOne({_id:poll},{id: poll}).exec().then(()=>{
+    //Delete poll
+    Polls.deleteOne({_id:poll}).exec().then(()=>{
         res.json({staus:200,message:"Deleted poll"})
     }).catch((error)=>{
         console.log(error)
