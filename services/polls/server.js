@@ -3,12 +3,13 @@ import dotenv from "dotenv"
 import bodyParser from "body-parser"
 
 //local imports
-import connect from "../polls/config/database.js"
+import connect from "./config/database.js"
 import pollsRouter from "./routes/pollRouter.js"
 
 dotenv.config()
 connect()
 
+console.log("DOCKER CHANGE  BUILD")
 const app = express()
 
 //middleware
