@@ -1,0 +1,9 @@
+.vote{
+    margin: 5px 0px;
+    padding: 1px;
+    width: 90%;
+    height: 20px;
+    border: 1px solid red;
+    display: flex;
+    justify-content: center;
+}

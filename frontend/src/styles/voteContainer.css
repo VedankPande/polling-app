@@ -1,0 +1,11 @@
+.vote-container{
+    margin: 10px 0px;
+    padding: 4px;
+    width: 90%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 3px solid green;
+}

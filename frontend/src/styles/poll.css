@@ -1,0 +1,23 @@
+.poll-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+.poll{
+    height: fit-content;
+    width: 50%;
+    outline: solid 1px black;
+    border-radius: 10px;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.poll-title{
+    font-weight: bold;
+}
