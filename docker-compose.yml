@@ -1,0 +1,72 @@
+version: '3'
+services:
+
+  api-gateway:
+    build:
+      context: ./api-gateway/
+    ports:
+       - '3080:3080'
+    volumes:
+      - ./api-gateway:/usr/src/app
+    env_file: './api-gateway/.env'
+
+  polls:
+    build:
+      context: ./services/polls/
+    ports:
+       - '3050:3050'
+    volumes:
+      - ./services/polls:/usr/src/app
+    env_file: './services/polls/.env'
+    depends_on:
+      - mongodb
+
+  votes:
+    build:
+      context: ./services/votes/
+    ports:
+       - '3040:3040'
+    volumes:
+      - ./services/votes:/usr/src/app
+    env_file: './services/votes/.env'
+    depends_on:
+      - mongodb
+
+  websockets:
+    build:
+      context: ./services/websockets/
+    ports:
+       - '3060:3060'
+    volumes:
+      - ./services/websockets:/usr/src/app
+    env_file: './services/websockets/.env'
+
+  auth:
+    build:
+      context: ./services/auth/
+    ports:
+       - '3030:3030'
+    volumes:
+      - ./services/auth:/usr/src/app
+    env_file: './services/auth/.env'
+    depends_on:
+      - mongodb
+  
+  rabbitmq:
+    image: rabbitmq:3.12.1-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=
+      - RABBITMQ_DEFAULT_PASS=
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodb:/data/db
+
+volumes:
+  mongodb: {}
