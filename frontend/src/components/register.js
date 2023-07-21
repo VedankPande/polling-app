@@ -1,33 +1,106 @@
-import React from "react";
+import React, { useState } from "react";
+import {
+  Grid,
+  Paper,
+  Avatar,
+  TextField,
+  Button,
+  Typography,
+  Link,
+} from "@mui/material";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import axios from "axios"
 
-import "../styles/register.css";
 export default function Register() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [reEnteredPassword, setReEnteredPassword] = useState("");
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const requestData = {
+      email,
+      password,
+    };
+
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:3030/register/",
+        requestData
+      );
+      console.log(response);
+
+      setEmail("");
+      setPassword("");
+      setReEnteredPassword("")
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const paperStyle = {
+    padding: 20,
+    height: "70vh",
+    width: 280,
+    margin: "20px auto",
+  };
+  const avatarStyle = { backgroundColor: "#1bbd7e" };
+  const btnstyle = { margin: "8px 0" };
   return (
-    <div className="register-container">
-      <div className="register">
-        <h1>Register</h1>
-        <form>
-          <label>
-            <div className="row">
-              <text>Username:</text>
-              <input type="text" />
-            </div>
-          </label>
-          <label>
-            <div className="row">
-              <text>Password:</text>
-              <input type="text" />
-            </div>
-            <div className="row">
-              <text>Re-enter Password:</text>
-              <input type="text" />
-            </div>
-          </label>
-          <div>
-            <button type="submit">Submit</button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <Grid>
+      <Paper elevation={10} style={paperStyle}>
+        <Grid align="center">
+          <Avatar style={avatarStyle}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <h2>Register</h2>
+        </Grid>
+        <TextField
+          label="Email"
+          placeholder="Enter email"
+          onChange={(event) => setEmail(event.target.value)}
+          variant="outlined"
+          value={email}
+          fullWidth
+          required
+        />
+        <TextField
+          label="Password"
+          placeholder="Enter password"
+          type="password"
+          onChange={(event) => setPassword(event.target.value)}
+          variant="outlined"
+          value={password}
+          fullWidth
+          required
+        />
+        <TextField
+          label="Re-Password"
+          placeholder="Re-enter password"
+          type="password"
+          onChange={(event) => setReEnteredPassword(event.target.value)}
+          variant="outlined"
+          value={reEnteredPassword}
+          fullWidth
+          required
+        />
+        <Button
+          type="submit"
+          color="primary"
+          variant="contained"
+          onClick={handleSubmit}
+          style={btnstyle}
+          fullWidth
+        >
+          Register
+        </Button>
+        <Typography>
+          {" "}
+          Already have an account?
+          <Link href="/login">Sign In</Link>
+        </Typography>
+      </Paper>
+    </Grid>
   );
 }
