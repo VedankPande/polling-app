@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken"
 
 import userSchema from "../model/user.js";
 
+//TODO: Blacklist TRACE requests for all requests to prevent anyone reading httponly cookies
 const login = async (req,res)=>{
     const User = mongoose.model('user',userSchema)
     const {email,password} = req.body
@@ -25,12 +26,12 @@ const login = async (req,res)=>{
         res.cookie('token',token,{
             secure: !(process.env.NODE_ENV === 'DEV'),
             httpOnly: true,
+            sameSite: 'none',
             maxAge : 2 * 60 * 60 * 1000
         })
         return res.json({
             message: "Succesfully logged in",
             status: 200,
-            token
         })
     }
     else{
@@ -78,6 +79,7 @@ const register = async (req,res)=>{
     
     res.cookie('token',token,{
         secure: !(process.env.NODE_ENV === 'DEV'),
+        sameSite: 'none',
         httpOnly: true,
         maxAge : 2 * 60 * 60 * 1000
     })
