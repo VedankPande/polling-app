@@ -5,6 +5,7 @@ const handleDelete = (message,model)=>{
     model.deleteOne({poll: message.id},{test:"Testvalue"}).then(()=>{
         console.log(`vote document deleted for ${message.id}`)
       }).catch((error)=>{
+        //TODO: For rollback, retry functionality? Can't undo delete on polls (maybe with an oplog you can)
         console.log(error)
       })
 
@@ -22,6 +23,7 @@ const handleSave = (message,model)=>{
     model.create({poll: message._id,votes}).then((doc)=>{
         console.log(doc)
     }).catch((error)=>{
+      //TODO: Add rollback delete here
         console.log(error)
     })
 }
