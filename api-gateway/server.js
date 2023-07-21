@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser"
-
+import cors from "cors"
 // local imports
 
 import setupProxy from "./config/proxy.js";
@@ -14,6 +14,8 @@ dotenv.config()
 
 //app and middleware
 const app = express()
+
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 // app.use(bodyParser.urlencoded({
 //     extended: true

@@ -5,7 +5,7 @@ export default async function auth(req,res,next){
     try{
 
         let cookies = {};
-
+        
         if (!req.headers.cookie){
           throw new Error("Token not in headers")
         }

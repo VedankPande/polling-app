@@ -3,6 +3,7 @@ import express from "express"
 import dotenv from "dotenv"
 import bodyParser from "body-parser"
 import mongoose, { mongo } from "mongoose"
+import cors from "cors"
 
 //local imports
 import connect from "./config/database.js"
@@ -16,6 +17,8 @@ connect()
 const app = express()
 
 //middleware
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+
 app.use(bodyParser.urlencoded({
     extended: true
   }));
