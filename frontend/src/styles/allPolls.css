@@ -1,0 +1,17 @@
+.all-polls-container{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.all-polls{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    width: 50%;
+    height: fit-content;
+    border: 1px solid red;
+}
