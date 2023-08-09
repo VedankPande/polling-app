@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-import '../styles/vote.css'
+import "../styles/vote.css";
 
-export default function Vote(){
-
-    return(
-        <div className="vote">
-            THIS IS A VOTE OPTION
-        </div>
-    )
+export default function Vote(props) {
+    console.log(props)
+    return <div className="vote">{`${props.data.option} - ${props.data.count}`}</div>
 }
