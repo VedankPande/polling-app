@@ -8,6 +8,8 @@ import {
   Typography,
   Link,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import axios from "axios"
 
@@ -15,6 +17,7 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [reEnteredPassword, setReEnteredPassword] = useState("");
+  const navigate = useNavigate()
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -34,6 +37,12 @@ export default function Register() {
       setEmail("");
       setPassword("");
       setReEnteredPassword("")
+
+      if (response.status === 200) {
+        sessionStorage.setItem("user", response.data.payload.user)
+        navigate('/home',{replace:true});
+      }
+
     } catch (err) {
       console.error(err);
     }

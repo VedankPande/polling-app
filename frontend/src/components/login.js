@@ -38,6 +38,7 @@ export default function Login() {
       setEmail("");
       setPassword("");
       if (response.status === 200) {
+        sessionStorage.setItem("user", response.data.payload.user)
         navigate('/home',{replace:true});
       }
     } catch (err) {
