@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Typography, List, ListItem, ListItemText } from "@mui/material";
-import Vote from "./vote";
+import { useNavigate } from "react-router-dom";
+import {
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemButton,
+} from "@mui/material";
 import axios from "axios";
 
-import "../styles/allPolls.css"
+import "../styles/allPolls.css";
 
 export default function AllPolls() {
   const [responseData, setResponseData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate()
 
   const getData = async () => {
     await axios
-      .get("http://127.0.0.1:3080/polls?user=64749d4793bfab3dc9946246", {
+      .get(`http://127.0.0.1:3080/polls?user=${sessionStorage.getItem("user")}`, {
         withCredentials: true,
       })
       .then((response) => {
@@ -27,6 +34,10 @@ export default function AllPolls() {
     getData();
   }, []);
 
+  const handleClick = (pollID,pollName) =>{
+    navigate('/poll', {state: {poll: pollID, name: pollName}})
+  }
+
   return (
     <div className="all-polls-container">
       {responseData && (
@@ -36,8 +47,10 @@ export default function AllPolls() {
           </Typography>
           <List component="div">
             {responseData.message.map((poll) => (
-              <ListItem button divider key={poll._id}>
-                <ListItemText primary={poll.name}></ListItemText>
+              <ListItem divider key={poll._id}>
+                <ListItemButton onClick={()=>{handleClick(poll._id,poll.name)}}>
+                  <ListItemText primary={poll.name}></ListItemText>
+                </ListItemButton>
               </ListItem>
             ))}
           </List>
