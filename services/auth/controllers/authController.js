@@ -32,6 +32,7 @@ const login = async (req,res)=>{
         return res.json({
             message: "Succesfully logged in",
             status: 200,
+            payload: {user:user._id}
         })
     }
     else{
@@ -87,7 +88,7 @@ const register = async (req,res)=>{
     return res.json({
         message: "Successfully created a user",
         status: 200,
-        token
+        payload: {user:newUser._id}
     })
 
 }
