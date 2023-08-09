@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./components/login";
 import Poll from "./components/poll";
 import Register from "./components/register";
+import ResponsiveAppBar from "./components/navbar";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -12,6 +13,7 @@ import AllPolls from "./components/userAllPolls";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
+  <ResponsiveAppBar/>
     <Routes>
       <Route index element={<App />} />
       <Route path="login" element={<Login />} />
